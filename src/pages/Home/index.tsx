@@ -6,6 +6,8 @@ import IconFondation from 'react-native-vector-icons/Foundation';
 import {Image} from 'react-native';
 import {Container} from './styles';
 
+import Story from '../../components/Story';
+
 import Avatar from '../../assets/avatar.jpeg';
 
 import User from '../User';
@@ -13,11 +15,15 @@ import Seach from '../Seach';
 import AddPost from '../AddPosts';
 import Notification from '../Notification';
 
+import Post from '../../components/Post';
+
 const Home = () => {
     const Tab = createBottomTabNavigator();
 
     return (
         <Container>
+            <Story />
+            <Post />
             <Tab.Navigator
                 screenOptions={({route}) => ({
                     tabBarIcon: ({focused, size}) => {
