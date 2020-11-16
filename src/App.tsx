@@ -1,43 +1,19 @@
+// import 'react-native-gesture-handler';
+import React from 'react';
+
 import {NavigationContainer} from '@react-navigation/native';
 
-import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Image, TouchableHighlight} from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
+import {StatusBar, View} from 'react-native';
 
-import LogoInstagran from './assets/instagram.png';
-
-import {StatusBar} from 'react-native';
-import Home from './pages/Home';
+import Routes from './routes';
 
 const App = () => {
-  const Stack = createStackNavigator();
   return (
     <NavigationContainer>
       <StatusBar barStyle="dark-content" backgroundColor="#f5f5f5" />
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          options={{
-            headerStyle: {
-              backgroundColor: '#f5f5f5',
-            },
-            headerTitle: () => <Image source={LogoInstagran} />,
-            headerTitleAlign: 'center',
-            headerRight: () => (
-              <TouchableHighlight style={{marginRight: 16}}>
-                <Icon name="send" color="#000" size={24} />
-              </TouchableHighlight>
-            ),
-            headerLeft: () => (
-              <TouchableHighlight style={{marginLeft: 16}}>
-                <Icon name="camera" color="#000" size={24} />
-              </TouchableHighlight>
-            ),
-          }}
-        />
-      </Stack.Navigator>
+      <View style={{flex: 1, backgroundColor: '#7159c1'}}>
+        <Routes />
+      </View>
     </NavigationContainer>
   );
 };

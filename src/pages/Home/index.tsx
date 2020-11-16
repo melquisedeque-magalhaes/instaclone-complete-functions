@@ -3,15 +3,21 @@ import React from 'react';
 import {Container} from './styles';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Avatar from '../../assets/avatar.jpeg';
+
 import User from '../User';
-import HomePage from '../Home';
+import Seach from '../Seach';
+import AddPost from '../AddPosts';
+import Notification from '../Notification';
 import Icon from 'react-native-vector-icons/Feather';
+import IconFondation from 'react-native-vector-icons/Foundation';
+import {View, Image} from 'react-native';
 
 const Home = () => {
   const Tab = createBottomTabNavigator();
 
   return (
-    <>
+    <Container>
       <Tab.Navigator
         screenOptions={({route}) => ({
           tabBarIcon: ({focused, size}) => {
@@ -20,23 +26,44 @@ const Home = () => {
 
             if (route.name === 'Home') {
               iconName = 'home';
-              colorIcon = focused ? '#000' : '#fff';
+              colorIcon = '#000';
+              return (
+                <IconFondation name={iconName} size={size} color={colorIcon} />
+              );
             } else if (route.name === 'User') {
-              iconName = 'user';
-              colorIcon = focused ? '#000' : '#fff';
+              return (
+                <Image
+                  source={Avatar}
+                  width={10}
+                  height={10}
+                  style={{width: 35, height: 35, borderRadius: 50}}
+                />
+              );
+            } else if (route.name === 'Seach') {
+              iconName = 'search';
+              colorIcon = focused ? '#000' : '#666';
+            } else if (route.name === 'AddPost') {
+              iconName = 'plus-square';
+              colorIcon = focused ? '#000' : '#666';
+            } else if (route.name === 'Notification') {
+              iconName = 'heart';
+              colorIcon = focused ? '#000' : '#666';
             }
-
             return <Icon name={iconName} size={size} color={colorIcon} />;
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
+          activeTintColor: '#000',
+          inactiveTintColor: '#666',
+          showLabel: false,
         }}>
-        <Tab.Screen name="Home" component={HomePage} />
+        <Tab.Screen name="Home" component={Seach} />
+        <Tab.Screen name="Seach" component={Seach} />
+        <Tab.Screen name="AddPost" component={AddPost} />
+        <Tab.Screen name="Notification" component={Notification} />
         <Tab.Screen name="User" component={User} />
       </Tab.Navigator>
-    </>
+    </Container>
   );
 };
 
