@@ -1,13 +1,13 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const AvatarStory = styled.Image`
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: row;
-    height: 100px;
-    width: 100%;
-    background-color: #f5f5f5;
-    border-width: 1px;
-    border-color: #ccc;
+    margin: 5px;
+    border-radius: 50px;
+    width: 80px;
+    height: 80px;
+    border-width: 2px;
+    border-color: #d94c7e;
 `;

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Feather';
 import IconFondation from 'react-native-vector-icons/Foundation';
-import {Image} from 'react-native';
-import {Container} from './styles';
+import {Image, FlatList, ScrollView, SafeAreaView} from 'react-native';
+import {Container, ContainerStory} from './styles';
 
 import Story from '../../components/Story';
 
@@ -17,13 +17,64 @@ import Notification from '../Notification';
 
 import Post from '../../components/Post';
 
-const Home = () => {
+interface AuthorProps {
+    id: number;
+    name: string;
+    avatar: string;
+}
+interface PostPros {
+    id: number;
+    image: string;
+    small: string;
+    aspectRatio: number;
+    description: string;
+    authorId: number;
+    author: AuthorProps;
+}
+
+const Home: React.FC = () => {
     const Tab = createBottomTabNavigator();
+
+    const [posts, setPosts] = useState<PostPros[]>([]);
+    const [authors, setAuthors] = useState<AuthorProps[]>([]);
+
+    useEffect(() => {
+        fetch(
+            'http://localhost:3000/feed?_expand=author&_limit=5&_page=1',
+        ).then((response) =>
+            response.json().then((responseJson) => setPosts(responseJson)),
+        );
+
+        fetch('http://localhost:3000/authors').then((res) =>
+            res.json().then((resJson) => setAuthors(resJson)),
+        );
+    }, []);
 
     return (
         <Container>
-            <Story />
-            <Post />
+            <ContainerStory>
+                <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}>
+                    {authors.map((author) => (
+                        <Story avatar={author.avatar} key={author.id} />
+                    ))}
+                </ScrollView>
+            </ContainerStory>
+
+            <FlatList
+                data={posts}
+                keyExtractor={(post) => String(post.id)}
+                renderItem={({item: post}) => (
+                    <Post
+                        title={post.author.name}
+                        avatar={post.author.avatar}
+                        description={post.description}
+                        image={post.image}
+                    />
+                )}
+            />
+
             <Tab.Navigator
                 screenOptions={({route}) => ({
                     tabBarIcon: ({focused, size}) => {

@@ -1,18 +1,14 @@
 import React from 'react';
 
-import {Container} from './styles';
+//import AvatarStory from '../AvatarStory';
 
-import AvatarStory from '../AvatarStory';
-
-import AmorAvatar from '../../assets/avatar.jpeg';
-
-export default function Story() {
-    return (
-        <Container>
-            <AvatarStory image={AmorAvatar} />
-            <AvatarStory image={AmorAvatar} />
-            <AvatarStory image={AmorAvatar} />
-            <AvatarStory image={AmorAvatar} />
-        </Container>
-    );
+import {AvatarStory} from './styles';
+interface StoryProps {
+    avatar: string;
 }
+
+const Story: React.FC = ({avatar}: StoryProps) => {
+    return <AvatarStory source={{uri: avatar}} />;
+};
+
+export default Story;

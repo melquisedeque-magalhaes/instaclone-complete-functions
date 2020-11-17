@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableHighlight} from 'react-native';
+import {TouchableHighlight, ImageSourcePropType} from 'react-native';
 
 import {
     Container,
@@ -15,17 +15,22 @@ import Icon from 'react-native-vector-icons/Feather';
 
 import ImgAvatar from '../../assets/avatar.jpeg';
 
-const Post: React.FC = () => {
+interface PostProps {
+    avatar: string;
+    title: string;
+    description: string;
+    image: string;
+}
+
+const Post: React.FC = ({avatar, title, description, image}: PostProps) => {
     return (
         <Container>
             <Header>
-                <Avatar source={ImgAvatar} />
-                <Title>Kassia</Title>
+                <Avatar source={{uri: avatar}} />
+                <Title>{title}</Title>
             </Header>
-            <Descriptions>
-                A mulher mais linda desse mundo, te amo minha princesa.
-            </Descriptions>
-            <ImagePost source={ImgAvatar} />
+            <Descriptions>{description}</Descriptions>
+            <ImagePost source={{uri: image}} />
             <ContainerButton>
                 <TouchableHighlight style={{marginRight: 16}}>
                     <Icon name="heart" color="#000" size={24} />
