@@ -9,14 +9,14 @@ import LogoInstagran from '../assets/instagram.png';
 import Home from '../pages/Home';
 //import User from '../pages/User';
 
-export default function Routes() {
+export default function HeaderNavigation() {
     const Stack = createStackNavigator();
 
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="Home"
                 component={Home}
+                name="Home"
                 options={{
                     cardStyle: {backgroundColor: '#f5f5f5'},
                     headerTitle: () => <Image source={LogoInstagran} />,
