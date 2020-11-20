@@ -28,7 +28,7 @@ O Instaclone e uma aplicação baseada no instagran mobile, com algumas melhoria
 </p>
 
 
-![screenshot](./assets/instaclone2.webm)
+![screenshot](./assets/instaclone2.gif)
 
 
 
