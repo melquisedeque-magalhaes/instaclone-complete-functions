@@ -21,8 +21,6 @@
 </p>
 
 
-![screenshot](./assets/instaclone.webm)
-
 ## 📱 Projeto
 
 O Instaclone e uma aplicação baseada no instagran mobile, com algumas melhorias e novas funcionalidade, varias animações e foi construido como projeto de estudos.
@@ -30,8 +28,7 @@ O Instaclone e uma aplicação baseada no instagran mobile, com algumas melhoria
 </p>
 
 <p align="center">
-    <img alt="app gif" src="https://github.com/leoskrr/GoBarber/blob/master/.github/screenshots/sc-web-login.png" width="540px"/>
-    <img alt="app gif" src="https://github.com/leoskrr/GoBarber/blob/master/.github/screenshots/sc-mobile-signup.png" width="185px" />
+    ![screenshot](./assets/instaclone2.webm)
 </p>
 
 
