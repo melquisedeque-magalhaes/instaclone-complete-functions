@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableHighlight, ImageSourcePropType} from 'react-native';
+import {TouchableHighlight} from 'react-native';
 
 import {
     Container,
@@ -11,18 +11,29 @@ import {
     ContainerButton,
 } from './styles';
 
-import Icon from 'react-native-vector-icons/Feather';
+import LazyImage from '../LazyImage';
 
-import ImgAvatar from '../../assets/avatar.jpeg';
+import Icon from 'react-native-vector-icons/Feather';
 
 interface PostProps {
     avatar: string;
     title: string;
     description: string;
-    image: string;
+    source: string;
+    aspectRadio: number;
+    smallSource: string;
+    id: number;
 }
 
-const Post: React.FC = ({avatar, title, description, image}: PostProps) => {
+const Post: React.FC = ({
+    avatar,
+    title,
+    description,
+    source,
+    aspectRadio,
+    smallSource,
+    id,
+}: PostProps) => {
     return (
         <Container>
             <Header>
@@ -30,7 +41,12 @@ const Post: React.FC = ({avatar, title, description, image}: PostProps) => {
                 <Title>{title}</Title>
             </Header>
             <Descriptions>{description}</Descriptions>
-            <ImagePost source={{uri: image}} />
+            <LazyImage
+                source={source}
+                aspectRadio={aspectRadio}
+                smallSource={smallSource}
+                shouldLoad={id}
+            />
             <ContainerButton>
                 <TouchableHighlight style={{marginRight: 16}}>
                     <Icon name="heart" color="#000" size={24} />

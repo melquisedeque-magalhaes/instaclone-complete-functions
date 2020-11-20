@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 
 import {FlatList, ScrollView} from 'react-native';
-import {Container, ContainerStory} from './styles';
+import {Container, ContainerStory, Loading} from './styles';
 
 import Story from '../../components/Story';
 
@@ -26,17 +26,58 @@ interface PostPros {
 const Home: React.FC = () => {
     const [posts, setPosts] = useState<PostPros[]>([]);
     const [authors, setAuthors] = useState<AuthorProps[]>([]);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
+    const [viewable, setViewable] = useState([]);
+
+    async function loadPage(pageNumber = page, shouldRefresh = false) {
+        if (total && pageNumber > total) {
+            return;
+        }
+
+        setLoading(true);
+
+        const responseFeed = await fetch(
+            `http://localhost:3000/feed?_expand=author&_limit=5&_page=${pageNumber}`,
+        );
+
+        const data = await responseFeed.json();
+        const totalItems = responseFeed.headers.get('X-TOTAL-Count');
+
+        const calc =
+            totalItems !== null ? Math.floor(parseFloat(totalItems) / 5) : 0;
+
+        setTotal(calc);
+
+        setPosts(shouldRefresh ? data : [...posts, ...data]);
+
+        setPage(pageNumber + 1);
+
+        const responseAuthors = await fetch('http://localhost:3000/authors');
+
+        const dataAuthors = await responseAuthors.json();
+
+        setAuthors(dataAuthors);
+
+        setLoading(false);
+    }
 
     useEffect(() => {
-        fetch(
-            'http://localhost:3000/feed?_expand=author&_limit=5&_page=1',
-        ).then((response) =>
-            response.json().then((responseJson) => setPosts(responseJson)),
-        );
+        loadPage();
+    }, []);
 
-        fetch('http://localhost:3000/authors').then((res) =>
-            res.json().then((resJson) => setAuthors(resJson)),
-        );
+    async function refreshList() {
+        setRefreshing(true);
+
+        await loadPage(1, true);
+
+        setRefreshing(false);
+    }
+
+    const handleViewableChaged = useCallback(({changed}) => {
+        setViewable(changed.map(({item}) => item.id));
     }, []);
 
     return (
@@ -55,12 +96,22 @@ const Home: React.FC = () => {
                 <FlatList
                     data={posts}
                     keyExtractor={(post) => String(post.id)}
+                    onEndReached={() => loadPage()}
+                    onEndReachedThreshold={0.1}
+                    ListFooterComponent={loading && <Loading />}
+                    onRefresh={refreshList}
+                    refreshing={refreshing}
+                    onViewableItemsChanged={handleViewableChaged}
+                    viewabilityConfig={{viewAreaCoveragePercentThreshold: 20}}
                     renderItem={({item: post}) => (
                         <Post
                             title={post.author.name}
                             avatar={post.author.avatar}
                             description={post.description}
-                            image={post.image}
+                            source={post.image}
+                            aspectRadio={post.aspectRatio}
+                            smallSource={post.small}
+                            id={viewable.includes(post.id)}
                         />
                     )}
                 />
